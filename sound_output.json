@@ -1,0 +1,34 @@
+[
+    {
+        "name" :"Library",
+        "id": 1,
+        "output": "圖書館大門在左方三公尺，廁所在東南方十公尺，電梯在西方八公尺"
+    },
+    {
+        "name":"Math_Museum",
+        "id": 2,
+        "output": "數學館大門在右方三公尺，廁所在西北方七公尺，樓梯在東方六公尺"
+    },
+    {
+        "name":"Stadium",
+        "id": 3,
+        "output": "體育館大門在右方三公尺，廁所在北方十公尺，樓梯在南方五公尺"
+    },
+
+    {
+
+        "name" :"Construction_Site_1",
+        "id": 41,
+        "output": "左方有施工，請注意安全"
+    },
+    {
+        "name":"car_1",
+        "id": 42,
+        "output": "路口車多，請減速慢行"
+    },
+    {
+        "name": "stagnant water",
+        "id": 43,
+        "output": "路面積水，請減速慢行"
+    }
+]
