@@ -13,7 +13,7 @@ from playsound import playsound
 with open('sound_output.json', 'r', encoding='utf-8') as file_json:
     data = json.load(file_json)
  
-calib_data_path = "../calib_data/MultiMatrix.npz"
+calib_data_path = "MultiMatrix.npz"
  
 calib_data = np.load(calib_data_path)
  
@@ -87,7 +87,29 @@ def sound_load():
             audio = gTTS(text=mytext, lang="zh-tw", slow=False)
             audio.save("room"+str(data[key]['id'])+".mp3")
 
-
+def SpeechToText():
+    r = sr.Recognizer()   #Speech recognition
+    with sr.Microphone() as source:
+        print("Say something!")
+        audio = r.listen(source)
+    try:
+        if(r.recognize_google(audio, language = 'zh-tw')=='圖書館'):
+            mytext = "圖書館在你後面"
+            audio = gTTS(text=mytext, lang="zh", slow=False)
+            audio.save("example.mp3")
+            os.system("start example.mp3")
+        elif(r.recognize_google(audio, language = 'zh-tw')=='廁所'):
+            mytext = "the restroom is above you haha"
+            audio = gTTS(text=mytext, lang="en", slow=False)
+            audio.save("example.mp3")
+            os.system("start example.mp3")
+        return 1
+    except sr.UnknownValueError:
+        print("Google Speech Recognition could not understand what the you say")
+        return 0
+    except sr.RequestError as e:
+        print("Could not request results from Google Speech Recognition service; {0}".format(e))
+        return 0 
 
 
 sound_load()
@@ -159,7 +181,14 @@ while True:
             # around_building
             if ids[0] == 0:
                 playsound("building.mp3")
+                time.sleep(1)
+                while(1):
+                    again=SpeechToText()
+                    if(again):
+                        break
+                    print(again)
                  # print(data[key]['name'])
+                 
  
             # building_data
             elif 1 <= ids[0] <= 3:
