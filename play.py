@@ -3,11 +3,10 @@ from gtts import gTTS
 import os
 
 def SpeechToText():
-    print(1)
     r = sr.Recognizer()   #Speech recognition
     with sr.Microphone() as source:
         print("Say something!")
-        audio = r.listen(source)
+        audio = r.listen(source, phrase_time_limit=3)
     try:
         if(r.recognize_google(audio, language = 'zh-tw')=='你好'):
             mytext = "誠宜開張聖聽，以光先帝遺德，恢弘志士之氣，不宜妄自菲薄，引喻失義，以塞忠諫之路也"

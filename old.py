@@ -5,7 +5,7 @@ import os
 r = sr.Recognizer()
 mic = sr.Microphone()
 with mic as source:
-    audio = r.listen(source)
+    audio = r.listen(source, phrase_time_limit=1)
 print(r.recognize_google(audio))
 hear_val = r.recognize_google(audio)
 

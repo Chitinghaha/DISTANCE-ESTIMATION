@@ -1,51 +1,96 @@
 import cv2 as cv
 from cv2 import aruco
 import numpy as np
-import playsound
 import threading
 import time
 import json
+import speech_recognition as sr
+from gtts import gTTS
+import os
+from playsound import playsound
+
 
 with open('sound_output.json', 'r', encoding='utf-8') as file_json:
     data = json.load(file_json)
-
+ 
 calib_data_path = "../calib_data/MultiMatrix.npz"
-
+ 
 calib_data = np.load(calib_data_path)
-
+ 
 print(calib_data.files)
-
+ 
 cam_mat = calib_data["camMatrix"]
 dist_coef = calib_data["distCoef"]
 r_vectors = calib_data["rVector"]
 t_vectors = calib_data["tVector"]
-
+ 
 MARKER_SIZE = 8  # centimeters
-
-sound_num = 0
-
+ 
 marker_dict = aruco.Dictionary_get(aruco.DICT_4X4_50)
-
+ 
 param_markers = aruco.DetectorParameters_create()
+ 
+danger_sound = False
 
-cap = cv.VideoCapture(0)
+sum_t=0.0 
 
+cap = cv.VideoCapture(1)
+ 
 def output_sound(num):
     if num == 1:
-        playsound.playsound('turn-left.mp3')
+        playsound('right.mp3')
+        #time.sleep(1)
     else:
-        playsound.playsound('turn-right.mp3')
-
-def location_detect(num) :
+        playsound('left.mp3')
+        # time.sleep(1)
+ 
+def location_detect(num):
+ 
     if num > 10:
         output_sound(1)
-
+ 
     elif num < -10:
         output_sound(0)
-
+ 
     else:
         print("in the location")
 
+def sound_load():
+    #first tag
+    mytext=''
+    for key in range(len(data)):
+        if data[key]['id'] <= 9:
+            mytext = mytext + data[key]['name']
+            audio = gTTS(text=mytext, lang="en", slow=False)
+            audio.save("building.mp3")
+    
+    #second tag
+    mytext=''
+    for i in range(1,3):
+        mytext = data[i-1]['output']
+        audio = gTTS(text=mytext, lang="zh-tw", slow=False)
+        audio.save("all_room.mp3")
+
+    #third tag
+    mytext=''
+    for key in range(len(data)):
+        if 41<= data[key]['id'] <=43:
+            mytext = data[key]['output']
+            audio = gTTS(text=mytext, lang="zh-tw", slow=False)
+            audio.save("danger"+str(data[key]['id'])+".mp3")
+    
+    #forth
+    mytext=''
+    for key in range(len(data)):
+        if 10<= data[key]['id'] <=39:
+            mytext = data[key]['output']
+            audio = gTTS(text=mytext, lang="zh-tw", slow=False)
+            audio.save("room"+str(data[key]['id'])+".mp3")
+
+
+
+
+sound_load()
 while True:
     ret, frame = cap.read()
     if not ret:
@@ -69,11 +114,11 @@ while True:
             top_left = corners[1].ravel()
             bottom_right = corners[2].ravel()
             bottom_left = corners[3].ravel()
-
+ 
             # Since there was mistake in calculating the distance approach point-outed in the Video Tutorial's comment
             # so I have rectified that mistake, I have test that out it increase the accuracy overall.
             # Calculating the distance
-
+ 
             distance = np.sqrt(
                 tVec[i][0][2] ** 2 + tVec[i][0][0] ** 2 + tVec[i][0][1] ** 2
             )
@@ -101,31 +146,44 @@ while True:
             )
             # output sound
 
-            # around_building
-            if ids[0] == 0:
-                for key in range(len(data)):
-                    if data[key]['id'] <= 9:
-                        print(data[key]['name'])
-
-            # building_data
-            if 1 <= ids[0] <= 3:
-                print(data[ids[0]-1]['output'])
-
-            # location_sound
-            elif 10 <= ids[0] <= 40:
-                print(ids)
-               # location_detect(tVec[i][0][0])
-
-            # danger_detect
-            elif ids[0] > 40:
-                for key in range(len(data)):
-                    if ids[0] == data[key]['id']:
-                        print(data[key]['output'])
-
             # emergency
             if round(distance, 2) < 35:
-                print("help")
+                sum_t+=1
+                if sum_t > 200:
+                    sum_t=0.0 
+                    playsound("help.mp3")
+            else:
+                sum_t=0.0
+                
+                
+            print(sum_t)
+            
+            # around_building
+            if ids[0] == 0:
+                playsound("building.mp3")
+                 # print(data[key]['name'])
+ 
+            # building_data
+            elif 1 <= ids[0] <= 3:
+                if os.path.isfile("./all_room.mp3"):
+                    playsound("all_room.mp3")
+                # print(data[ids[0]-1]['output'])
+            
+            #room_location
+            elif 10 <= ids[0] <=39:
+                if os.path.isfile(str("./room"+str(ids[0])+".mp3")):
+                    location_detect(tVec[i][0][0])
+                    if round(distance, 2) < 50:
+                        playsound("room"+str(ids[0])+".mp3")
 
+            # location_sound
+            elif ids[0] == 40:
+                location_detect(tVec[i][0][0])
+ 
+            # danger_detect 1~3
+            elif 41<= ids[0] <= 43:
+                playsound("danger"+str(ids[0])+".mp3")
+                 # print(data[key]['output'])
 
             #output sound
     cv.imshow("frame", frame)
