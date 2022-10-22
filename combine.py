@@ -34,7 +34,7 @@ danger_sound = False
 
 sum_t=0.0 
 
-cap = cv.VideoCapture(1)
+cap = cv.VideoCapture(0)
  
 def output_sound(num):
     if num == 1:
@@ -155,8 +155,6 @@ while True:
             else:
                 sum_t=0.0
                 
-                
-            print(sum_t)
             
             # around_building
             if ids[0] == 0:
