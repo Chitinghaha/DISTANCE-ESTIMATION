@@ -1,52 +1,54 @@
 [
-    {
-        "name" :"Library",
-        "id": 1,
-        "output": "已到達圖書館，廁所在東南方十公尺，電梯在西方八公尺，飲水機在北方三公尺"
-    },
-    {
-        "name":"Math_Museum",
-        "id": 2,
-        "output": "已到達數學館，廁所在西北方七公尺，樓梯在東方六公尺，飲水機在南方三公尺"
-    },
-    {
-        "name":"Stadium",
-        "id": 3,
-        "output": "已到達體育館，廁所在北方十公尺，樓梯在南方五公尺，飲水機在西方八公尺"
-    },
+  {
+    "name": "圖書館",
+    "id": 1,
+    "location": "圖書館在東南方20公尺",
+    "output": "已到達圖書館，廁所在東南方十公尺，電梯在西方八公尺，飲水機在北方三公尺"
+  },
+  {
+    "name": "博物館",
+    "id": 2,
+    "location": "博物館在西北方15公尺",
+    "output": "已到達博物館，廁所在西北方七公尺，樓梯在東方六公尺，飲水機在南方三公尺"
+  },
+  {
+    "name": "體育館",
+    "id": 3,
+    "location": "體育館在西方85公尺",
+    "output": "已到達體育館，廁所在北方十公尺，樓梯在南方五公尺，飲水機在西方八公尺"
+  },
 
-    {
-        "name":"toliet",
-        "id":10,
-        "output":"已到達廁所"
-    },
+  {
+    "name": "toliet",
+    "id": 10,
+    "output": "已到達廁所"
+  },
 
-    {
-        "name":"water_dispenser",
-        "id":11,
-        "output":"已到達飲水機"
-    },
-    
-    {
-        "name":"classroom",
-        "id":12,
-        "output":"已到達教室"
-    },
-    
-    {
+  {
+    "name": "water_dispenser",
+    "id": 11,
+    "output": "已到達飲水機"
+  },
 
-        "name" :"Construction_Site_1",
-        "id": 41,
-        "output": "左方有施工，請注意安全"
-    },
-    {
-        "name":"car_1",
-        "id": 42,
-        "output": "路口車多，請減速慢行"
-    },
-    {
-        "name": "stagnant water",
-        "id": 43,
-        "output": "路面積水，請減速慢行"
-    }
+  {
+    "name": "classroom",
+    "id": 12,
+    "output": "已到達教室"
+  },
+
+  {
+    "name": "Construction_Site_1",
+    "id": 41,
+    "output": "左方有施工，請注意安全"
+  },
+  {
+    "name": "car_1",
+    "id": 42,
+    "output": "路口車多，請減速慢行"
+  },
+  {
+    "name": "stagnant water",
+    "id": 43,
+    "output": "路面積水，請減速慢行"
+  }
 ]
