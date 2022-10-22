@@ -9,7 +9,6 @@ def SpeechToText():
         print("Say something!")
         audio = r.listen(source)
     try:
-        print(1)
         if(r.recognize_google(audio, language = 'zh-tw')=='你好'):
             mytext = "誠宜開張聖聽，以光先帝遺德，恢弘志士之氣，不宜妄自菲薄，引喻失義，以塞忠諫之路也"
             audio = gTTS(text=mytext, lang="zh", slow=False)
@@ -34,4 +33,4 @@ while(1):
         break
     print(again)
 
-# type python catchErrorSpeech.py to execute
+#type python catchErrorSpeech.py to execute
