@@ -84,10 +84,10 @@ def sound_load():
     
     #second tag
     mytext=''
-    for i in range(1,3):
+    for i in range(1,4):
         mytext = data[i-1]['output']
         audio = gTTS(text=mytext, lang="zh-tw", slow=False)
-        audio.save(path+"all_room.mp3")
+        audio.save(path+"all_room"+str(i)+".mp3")
 
     #third tag
     mytext=''
@@ -231,7 +231,7 @@ while True:
             # building_data
             elif 1 <= ids[0] <= 3:
                 if os.path.isfile(path+"all_room.mp3"):
-                    playsound(path+"all_room.mp3")
+                    playsound(path+"all_room"+str(ids[0])+".mp3")
                 # print(data[ids[0]-1]['output'])
             
             #room_location

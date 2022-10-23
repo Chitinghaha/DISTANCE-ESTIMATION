@@ -69,7 +69,7 @@ def sound_load():
     for i in range(1,3):
         mytext = data[i-1]['output']
         audio = gTTS(text=mytext, lang="zh-tw", slow=False)
-        audio.save("all_room.mp3")
+        audio.save("all_room"+str(i)+".mp3")
 
     #third tag
     mytext=''
