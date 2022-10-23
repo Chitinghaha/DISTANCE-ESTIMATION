@@ -37,14 +37,16 @@ sum_t=0.0
 
 location_name = []
 
+path = "sound/"
+
 cap = cv.VideoCapture(0)
  
 def output_sound(num):
     if num == 1:
-        playsound('right.mp3')
+        playsound(path+'right.mp3')
         #time.sleep(1)
     else:
-        playsound('left.mp3')
+        playsound(path+'left.mp3')
         # time.sleep(1)
  
 def location_detect(num):
@@ -85,7 +87,7 @@ def sound_load():
     for i in range(1,3):
         mytext = data[i-1]['output']
         audio = gTTS(text=mytext, lang="zh-tw", slow=False)
-        audio.save("all_room.mp3")
+        audio.save(path+"all_room.mp3")
 
     #third tag
     mytext=''
@@ -93,7 +95,7 @@ def sound_load():
         if 41<= data[key]['id'] <=43:
             mytext = data[key]['output']
             audio = gTTS(text=mytext, lang="zh-tw", slow=False)
-            audio.save("danger"+str(data[key]['id'])+".mp3")
+            audio.save(path+"danger"+str(data[key]['id'])+".mp3")
     
     #forth
     mytext=''
@@ -101,17 +103,26 @@ def sound_load():
         if 10<= data[key]['id'] <=39:
             mytext = data[key]['output']
             audio = gTTS(text=mytext, lang="zh-tw", slow=False)
-            audio.save("room"+str(data[key]['id'])+".mp3")
+            audio.save(path+"room"+str(data[key]['id'])+".mp3")
     
 
     #fifth
     mytext = '三公尺'
     audio = gTTS(text=mytext, lang="zh-tw", slow=False)
-    audio.save("3m.mp3")
+    audio.save(path+"3m.mp3")
 
     mytext = '一公尺'
     audio = gTTS(text=mytext, lang="zh-tw", slow=False)
-    audio.save("1m.mp3")
+    audio.save(path+"1m.mp3")
+
+    #sixth
+    mytext = '左'
+    audio = gTTS(text=mytext, lang="zh-tw", slow=False)
+    audio.save(path+"left.mp3")
+
+    mytext = '右'
+    audio = gTTS(text=mytext, lang="zh-tw", slow=False)
+    audio.save(path+"right.mp3")
 
 
     
@@ -122,7 +133,7 @@ def SpeechToText():
         audio = r.listen(source)
     try:
         if(r.recognize_google(audio, language = 'zh-tw')=='圖書館'):
-            os.system("start building2.mp3")
+            os.system("start building1.mp3")
         elif(r.recognize_google(audio, language = 'zh-tw')=='博物館'):
             os.system("start building2.mp3")
         elif(r.recognize_google(audio, language = 'zh-tw')=='體育館'):
@@ -201,7 +212,7 @@ while True:
                 if sum_t > 200:
                     sum_t=0.0 
                     sms_out("我目前可能受傷了，請試圖聯絡我")
-                    playsound("help.mp3")
+                    playsound(path+"help.mp3")
             else:
                 sum_t=0.0
                 
@@ -219,22 +230,22 @@ while True:
  
             # building_data
             elif 1 <= ids[0] <= 3:
-                if os.path.isfile("./all_room.mp3"):
-                    playsound("all_room.mp3")
+                if os.path.isfile(path+"all_room.mp3"):
+                    playsound(path+"all_room.mp3")
                 # print(data[ids[0]-1]['output'])
             
             #room_location
             elif 10 <= ids[0] <=39:
-                if os.path.isfile(str("./room"+str(ids[0])+".mp3")):
+                if os.path.isfile(str(path+"room"+str(ids[0])+".mp3")):
                     location_detect(tVec[i][0][0])
                     if round(distance, 2) < 50:
-                        playsound("room"+str(ids[0])+".mp3")
+                        playsound(path+"room"+str(ids[0])+".mp3")
 
                     elif round(distance, 2) < 100:
-                        playsound("1m.mp3")
+                        playsound(path+"1m.mp3")
 
                     elif round(distance, 2) < 300:
-                        playsound("3m.mp3")
+                        playsound(path+"3m.mp3")
 
             # location_sound
             elif ids[0] == 40:
@@ -242,7 +253,7 @@ while True:
 
             # danger_detect 1~3
             elif 41 <= ids[0] <= 43:
-                playsound("danger"+str(ids[0])+".mp3")
+                playsound(path+"danger"+str(ids[0])+".mp3")
                  # print(data[key]['output'])
 
             #output sound
